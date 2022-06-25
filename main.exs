@@ -22,7 +22,7 @@ IO.puts( add_ten.( add_five.(23) ) )
 23 |> add_five.() |> add_ten.() |> IO.puts()
 
 # Create a list with brackets
-list [1, 2, 3]
+list = [1, 2, 3]
 
 # Create a map for an Object (JSON like)
 # I am not sure I can make one below another
@@ -40,3 +40,29 @@ end
 unless false do
     IO.puts('It is false')
 end
+
+
+# Cases logic
+# Apparently, variables are immutable. So you have to assign the value of the case directly to the variable itself, and print it eventually
+end_condition =
+case {1, 2, 3} do
+     {4, 5, 6} -> 'This clause won\'t match'
+     {1, x, 3} -> 'This clause will match and bind x to 2 in this clause'
+         _     -> 'This clause would match any value'
+end
+
+IO.puts (end_condition)
+
+
+# Looping over the created array before
+# For loop
+for x <- list do # for value <- about the list, do function, end
+  IO.puts(x)
+end
+
+# Looping over a map
+# ForEach enumeration, of the object map, use function with k(key) and v (value)
+# In that first element function, do what you want (IO.puts). End
+Enum.each(map, fn {k, v} ->
+  IO.puts("#{k} --> #{v}")
+end)
