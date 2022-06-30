@@ -47,7 +47,7 @@ end
 end_condition =
 case {1, 2, 3} do
      {4, 5, 6} -> 'This clause won\'t match'
-     {1, x, 3} -> 'This clause will match and bind x to 2 in this clause'
+     {1, x, 3} -> 'This clause will match and bind x to 2 in this clause. So x=#{x}'
          _     -> 'This clause would match any value'
 end
 
@@ -66,3 +66,27 @@ end
 Enum.each(map, fn {k, v} ->
   IO.puts("#{k} --> #{v}")
 end)
+
+# Progressing with dates, and I'll use them to show also string interpolations and Tuples
+
+# This generates a standardized date
+date = ~D[2000-01-01]
+IO.puts(date)
+
+# To interpolate a string, use double quote + hashtag that goes before a {}, like below shown
+IO.puts('The date is #{date.year} - #{date.month} - #{date.day}')
+
+# This is a tuple. and the result is this {{YYYY, M, GG}, {HH, mm, ss}} (UTC 0)
+tuple_date = :calendar.universal_time
+
+# We cannot print a tuple in a string-like standard. So we convert it into an array.
+# From a tuple of tuples {{YYYY, M, GG}, {HH, mm, ss}} we will have an array of tuples [{YYYY, M, GG}, {HH, mm, ss}]
+list_date = Tuple.to_list(tuple_date)
+
+# Now we loop over each tuple element in the array to extract the tuple inside
+# From the tuple, we will convert intern tuples into arrays and join them together with a separator
+# !NB. Enum.join() as a second argument needs a double quote separator. NOT single quote
+for single_date <- list_date do
+  IO.puts('We are getting the tuple with nesting function #{Enum.join(Tuple.to_list(single_date), ":")}') # I use nested functions
+  IO.puts('We are getting the tuple with pipe operations #{single_date |> Tuple.to_list |> Enum.join(": ")}') # I use the pipe operator to do the same thing
+end
